@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name">Cold_Chain_Logistic</string>
+    <!--实现加下划线-->
+    <string name="login_login"><b>现在注册</b></string>
+
+
+    <!--common-->
+    <string name="username">账户</string>
+    <string name="username_hint">请输入邮箱或者手机</string>
+    <string name="pwd">密码</string>
+    <string name="pwd_hint">请输入密码</string>
+
+
+
+    <!--register-->
+    <string name="register_title">用户注册</string>
+    <string name="register_pwd_confirm">确认密码</string>
+    <string name="register_pwd_confirm_hint">请输入密码</string>
+    <string name="register_nickname">昵称</string>
+    <string name="register_nickname_hint">请输入昵称</string>
+    <string name="register_autograph">个性签名</string>
+    <string name="register_autograph_hint">一句话介绍自己</string>
+
+
+
+
+    <!--fg_one-->
+    <string name="fg_one_title">普通查询</string>
+    <string name="fg_one_et_hint">请输入侦听的IMSI号</string>
+
+    <!--fg_one_show-->
+    <string name="fg_one_show_zhen">帧号</string>
+    <string name="fg_one_show_IMSI">IMSI号</string>
+    <string name="fg_one_show_service">服务器</string>
+    <string name="fg_one_show_port">端口</string>
+    <string name="fg_one_show_receive">接收时间</string>
+
+
+
+
+    <!--fg_two-->
+    <string name="fg_two_title">历史数据</string>
+    <string name="fg_two_search">搜索</string>
+    <string name="fg_two_hint">请输入IMSI号</string>
+
+
+    <!--fg_four-->
+    <string name="fg_four_title">我的</string>
+    <string name="fg_four_list">我的IMSI号</string>
+
+    <!--fg_four_help-->
+    <string name="fg_four_help_title">冷链物流说明书</string>
+    <string name="fg_four_help_text">
+ NB-IoT终端（Ultimate-Equipment，UE）是一种以微控制器（MCU）为核心，具有数据采集、控制、运算等功能，带有NB-IoT通信功能，甚至包含机械结构，用于特定功能的软硬件实体。
+  NB-IoT信息邮局（Mssage Post Office，MPO）是一种基于NB-IoT协议的信息传送系统。
+    </string>
+
+</resources>

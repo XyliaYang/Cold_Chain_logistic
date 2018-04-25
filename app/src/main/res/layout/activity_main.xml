@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <!--要将文件路径名称引用书写完整-->
+    <fragment
+        android:name="com.example.hp.cold_chain_logistic.fragment.OneFragment"
+        android:id="@+id/fg_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="12"
+         />
+
+
+    <com.roughike.bottombar.BottomBar
+        android:id="@+id/bbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        app:bb_behavior="shifting"
+        android:layout_weight="1"
+        app:bb_tabXmlResource="@xml/bottom_bar"
+        ></com.roughike.bottombar.BottomBar>
+</LinearLayout>

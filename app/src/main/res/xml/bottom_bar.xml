@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs xmlns:android="http://schemas.android.com/apk/res/android">
+    <tab
+        id="@+id/tab_one"
+        title="首页"
+        icon="@drawable/ic_bottom_one"
+   />
+
+    <!--<tab-->
+        <!--id="@+id/tab_two"-->
+        <!--title="历史"-->
+        <!--icon="@drawable/ic_bottom_two"-->
+        <!--/>-->
+    <tab
+        id="@+id/tab_three"
+        title="实时"
+        icon="@drawable/ic_bottom_three"
+        />
+    <tab
+        id="@+id/tab_four"
+        title="我的"
+        icon="@drawable/ic_bottom_four"
+        />
+
+</tabs>

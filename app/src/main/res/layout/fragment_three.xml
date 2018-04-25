@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@mipmap/bg_fragment_1"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/iv_fg_one_show_del"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            app:srcCompat="@drawable/ic_fg_one_show_del" />
+
+        <ImageView
+            android:id="@+id/iv_fg_one_show_save"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignTop="@+id/iv_fg_one_show_del"
+            android:layout_toStartOf="@+id/iv_fg_one_show_del"
+            app:srcCompat="@drawable/ic_fg_one_show_save" />
+
+
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_margin="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="360dp"
+        >
+        <ListView
+            android:id="@+id/lv_fg_three_show"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="6dp"
+            />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            style="@style/btn"
+            android:id="@+id/button"
+            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="回                    发" />
+    </LinearLayout>
+
+</LinearLayout>

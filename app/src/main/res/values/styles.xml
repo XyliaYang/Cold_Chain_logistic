@@ -1,0 +1,59 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    
+    <!--说明文字的text样式-->
+    <style name="text_intro">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16dip</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+
+    <!--说明文字的text样式-->
+    <style name="text_intro_black">
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16dip</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <!--通用编辑文本样式-->
+    <style name="edit">
+        <item name="android:layout_height">40dp</item>
+        <item name="android:textSize">18dip</item>
+        <item name="android:background">@color/colorGreyLight</item>
+        <item name="android:gravity">center_vertical</item>
+
+    </style>
+
+
+    <!--通用标题格式-->
+    <style name="text_title">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">25dip</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <!--通用主题按钮-->
+    <style name="btn">
+        <item name="android:background">@drawable/btn_shape</item>
+        <item name="android:layout_marginLeft">50dp</item>
+        <item name="android:layout_marginRight">50dp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">16dp</item>
+
+
+    </style>
+
+
+
+</resources>
