@@ -23,7 +23,7 @@ import com.roughike.bottombar.OnTabSelectListener;
 
 import butterknife.BindView;
 
-import static com.example.hp.cold_chain_logistic.fragment.OneFragment.IMSI;
+
 
 /**
  * @author liz
@@ -49,7 +49,6 @@ public class MainActivity extends BaseActivity {
 
         init();
 
-
         bbar_main.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(int tabId) {
@@ -63,18 +62,7 @@ public class MainActivity extends BaseActivity {
 //                        break;
 
                     case  R.id.tab_three:
-                        String IMSI= new OneFragment().getIMSI();
-
-                        if (IMSI.equals("")){
-                            AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
-                            builder.setMessage("请输入正确的15位IMSI号！")
-                                    .setPositiveButton("确定",null);
-                            builder.show();
-
-
-                        }else{
-                            changeFragment(fg_three);
-                        }
+                        changeFragment(fg_three);
                         break;
                     case R.id.tab_four:
                         changeFragment(fg_four);

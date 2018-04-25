@@ -16,6 +16,8 @@ import android.widget.SimpleAdapter;
 import com.example.hp.cold_chain_logistic.R;
 import com.example.hp.cold_chain_logistic.db.Para;
 import com.example.hp.cold_chain_logistic.utils.HttpUtils;
+import com.example.hp.cold_chain_logistic.utils.Utility;
+import com.example.hp.cold_chain_logistic.utils.getParaListCallback;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -42,7 +44,6 @@ public class OneShowFragment extends Fragment {
     private ArrayList<HashMap<String, String>> mArrayList = new ArrayList<>();
     private SimpleAdapter simpleAdapter;
     private ImageView iv_fg_one_show_back;
-    private List<Para> paraList;
     private ImageView iv_fg_one_show_del;
     private ImageView iv_fg_one_show_save;
     private ImageView iv_fg_one_show_left;
@@ -51,8 +52,7 @@ public class OneShowFragment extends Fragment {
     private int curFraNum;  //当前帧号
     private String firstFraNum; //最初帧号
     private String url;
-    private String IMSI; //当前输入的IMSI号
-
+    private String IMSICODE; //当前输入的IMSI号
 
     @Nullable
     @Override
@@ -78,17 +78,6 @@ public class OneShowFragment extends Fragment {
      * 展示列表
      */
     private void showList() {
-        mArrayList.clear();
-        for (int i = 2; i < paraList.size(); i++) {
-            Para para = paraList.get(i);
-            HashMap<String, String> map = new HashMap<String, String>();
-            map.put("one_show_item_title", para.getName());
-            map.put("one_show_item_text", para.getValue());
-
-
-            mArrayList.add(map);
-        }
-
         simpleAdapter = new SimpleAdapter(getContext(),
                 mArrayList,
                 R.layout.item_listview_fg_one,
@@ -96,10 +85,6 @@ public class OneShowFragment extends Fragment {
                 new int[]{R.id.one_show_item_title, R.id.one_show_item_text} //
         );
 
-        for (HashMap<String, String> map : mArrayList) {
-            Log.d(TAG, "run: " + map.get("one_show_item_title"));
-            Log.d(TAG, "run: " + map.get("one_show_item_text"));
-        }
 
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -123,21 +108,56 @@ public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         public void onClick(View v) {
             curFraNum--;
             url = "https://www.suda-iot.com/AHL-Serve-Interface-CCL2/03_Web/FrameMessage.aspx?get:" +
-                    "curlen(" + curFraNum + "&" + IMSI;
-            updateList(url);
+                    "curlen(" + curFraNum + "&" + IMSICODE;
+            HttpUtils.getParaList(url, new getParaListCallback() {
+                @Override
+                public void onSuccess(final String data) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mArrayList=Utility.parseParatoHashList(data);
+                            simpleAdapter.notifyDataSetChanged();
+                        }
+                    });
+                }
+
+                @Override
+                public void onInternetError() {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
+                            builder.setMessage("请确认已连接上服务器！")
+                                    .setPositiveButton("确定", null);
+                            builder.show();
+                        }
+                    });
+                }
+
+                @Override
+                public void onNoDataError() {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
+                            builder.setMessage("上一帧IMSI号无实时数据，核对后再重新发送！")
+                                    .setPositiveButton("确定", null);
+                            builder.show();
+                        }
+                    });
+                }
+            });
 
         }
     });
 
-    //下一帧数据
+    //下一帧数据,不确定是否是我的思路还没写
     iv_fg_one_show_right.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             curFraNum++;
             url = "https://www.suda-iot.com/AHL-Serve-Interface-CCL2/03_Web/FrameMessage.aspx?get:" +
-                    "curlen(" + curFraNum + "&" + IMSI;
-            updateList(url);
-
+                    "curlen(" + curFraNum + "&" + IMSICODE;
         }
     });
 
@@ -146,8 +166,45 @@ public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         @Override
         public void onClick(View v) {
             url = "https://www.suda-iot.com/AHL-Serve-Interface-CCL2/03_Web/FrameMessage.aspx?get:" +
-                    "curlen(" + firstFraNum + "&" + IMSI;
-            updateList(url);
+                    "curlen(" + firstFraNum + "&" + IMSICODE;
+            HttpUtils.getParaList(url, new getParaListCallback() {
+                @Override
+                public void onSuccess(final String data) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mArrayList=Utility.parseParatoHashList(data);
+                            simpleAdapter.notifyDataSetChanged();
+                        }
+                    });
+                }
+
+                @Override
+                public void onInternetError() {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
+                            builder.setMessage("请确认已连接上服务器！")
+                                    .setPositiveButton("确定", null);
+                            builder.show();
+                        }
+                    });
+                }
+
+                @Override
+                public void onNoDataError() {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
+                            builder.setMessage("第一帧IMSI号无实时数据，核对后再重新发送！")
+                                    .setPositiveButton("确定", null);
+                            builder.show();
+                        }
+                    });
+                }
+            });
 
         }
     });
@@ -157,14 +214,21 @@ public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     iv_fg_one_show_save.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setMessage("确定保存该IMSI号信息吗?")
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage("确定保存该IMSI号信息吗?")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                        }
-                    }).setNegativeButton("取消", null);
+                                }
+                            }).setNegativeButton("取消", null);
+
+                }
+            });
+
         }
     });
 
@@ -182,82 +246,39 @@ public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     iv_fg_one_show_del.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setMessage("确定清空数据吗？")
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage("确定清空数据吗？")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                            //清空数据
-                            mArrayList.clear();
-                            for (int i = 2; i < paraList.size(); i++) {
-                                Para para = paraList.get(i);
-                                HashMap<String, String> map = new HashMap<String, String>();
-                                map.put("one_show_item_title", para.getName());
-                                map.put("one_show_item_text", "");
+                                    for(int i=0;i<mArrayList.size();i++){
+                                        mArrayList.get(i).put("one_show_item_title","");
+                                        mArrayList.get(i).put("one_show_item_text","");
+                                    }
 
-                                mArrayList.add(map);
-                            }
-
-                            simpleAdapter = new SimpleAdapter(getContext(),
-                                    mArrayList,
-                                    R.layout.item_listview_fg_one,
-                                    new String[]{"one_show_item_title", "one_show_item_text"}, //动态数组里与ListItem对应的子项
-                                    new int[]{R.id.one_show_item_title, R.id.one_show_item_text} //
-                            );
-
-                            lv_fg_one_show.setAdapter(simpleAdapter);
-
-
-                        }
-
-                    }).setNegativeButton("取消", null);
-
-            builder.show();
+                                    simpleAdapter.notifyDataSetChanged();
+                                }
+                            }).setNegativeButton("取消", null);
+                    builder.show();
+                }
+            });
         }
 
     });
 }
 
-/**
- * 获取最新url里的数据并且显示
- *
- * @param url
- */
-private void updateList(String url) {
-    HttpUtils.sendOkHttpRequest(url, new okhttp3.Callback() {
-        @Override
-        public void onFailure(Call call, IOException e) {
-            //网络错误
-            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
-            builder.setMessage("请确认已连接上服务器！")
-                    .setPositiveButton("确定", null);
-            builder.show();
-        }
-
-        @Override
-        public void onResponse(Call call, Response response) throws IOException {
-            //返回正确数据，json串存于response.body().string()
-            String data = response.body().string();
-            Gson gson = new Gson();
-            paraList.clear();
-            paraList = gson.fromJson(data, new TypeToken<List<Para>>() {
-            }.getType());
-
-            showList();
-
-        }
-    });
-
-}
 
 
-public void setData(String data) {
-    Gson gson = new Gson();
-    paraList = gson.fromJson(data, new TypeToken<List<Para>>() {
-    }.getType());
-    firstFraNum = paraList.get(2).getValue();
-    curFraNum = Integer.parseInt(firstFraNum);
-    IMSI = paraList.get(3).getValue();
+
+    public void setData(String data) {
+
+    mArrayList= Utility.parseParatoHashList(data);
+    firstFraNum=mArrayList.get(2).get("one_show_item_text");
+    curFraNum=Integer.parseInt(firstFraNum);
+    IMSICODE=mArrayList.get(3).get("one_show_item_text");
 }
 }

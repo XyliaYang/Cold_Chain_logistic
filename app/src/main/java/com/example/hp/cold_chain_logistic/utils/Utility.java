@@ -4,12 +4,15 @@ import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
 
 import com.example.hp.cold_chain_logistic.db.IMSI;
+import com.example.hp.cold_chain_logistic.db.Para;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -23,24 +26,25 @@ public class Utility {
 
 
     /**
-     * 解析传递的json字符串并存储进数据库
-     * @param response
+     * 将para型的json数据解析成用于Listview显示的HashList
      * @return
      */
-    public static  boolean handleIMSIResponse(String response,int userId){
+    public static ArrayList<HashMap<String,String>> parseParatoHashList(String data){
+        ArrayList<HashMap<String,String>> arrayList =new ArrayList<>();
+        List<Para> paraList=new ArrayList<>();
 
-        if(!TextUtils.isEmpty(response)) {
+        Gson  gson=new Gson();
+        paraList=gson.fromJson(data, new TypeToken<List<Para>>(){}.getType());
 
-            Gson gson=new Gson();
-            List<IMSI> imsiList = gson.fromJson(response,new TypeToken<List<IMSI>>(){}.getType());
+        for(int i=0;i<paraList.size();i++){
+            Para para=paraList.get(i);
+            HashMap<String,String> map=new HashMap<>();
+            map.put("one_show_item_title",para.getName());
+            map.put("one_show_item_text", para.getValue());
 
-            for (IMSI imsi : imsiList) {
-                imsi.setUserId(userId);
-                imsi.save();
-            }
-
-            return true;
+            arrayList.add(map);
         }
-        return false;
+
+        return arrayList;
     }
 }

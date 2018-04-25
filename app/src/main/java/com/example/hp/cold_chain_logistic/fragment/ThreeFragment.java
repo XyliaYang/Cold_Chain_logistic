@@ -79,7 +79,7 @@ public class ThreeFragment extends Fragment {
 
     private void initListPara() {
         //实时IMSI号
-        IMSI=new OneFragment().getIMSI();
+        IMSI="460042189005105";
 
         Random random=new Random();
         int s=random.nextInt(100);
