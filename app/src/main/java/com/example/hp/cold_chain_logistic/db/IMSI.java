@@ -1,5 +1,6 @@
 package com.example.hp.cold_chain_logistic.db;
 
+import org.litepal.annotation.Column;
 import org.litepal.crud.DataSupport;
 
 /**
@@ -10,8 +11,9 @@ import org.litepal.crud.DataSupport;
 
 public class IMSI extends DataSupport {
     private int id;  //自增字段
+
+    @Column(unique = true,nullable = false)  //唯一
     private  String box_id; //IMSI
-    private int userId; //不同用户id
 
 
     public int getId() {
@@ -30,11 +32,5 @@ public class IMSI extends DataSupport {
         this.box_id = box_id;
     }
 
-    public int getUserId() {
-        return userId;
-    }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 }
