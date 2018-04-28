@@ -33,4 +33,5 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.7.0'
     implementation files('libs/gson-2.8.0.jar')
     compile 'org.litepal.android:core:1.5.0'
+    compile 'com.github.igortrncic.dotted-progress-bar:library:1.0.0'
 }

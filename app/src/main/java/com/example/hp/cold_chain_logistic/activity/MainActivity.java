@@ -1,6 +1,7 @@
 package com.example.hp.cold_chain_logistic.activity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.inputmethodservice.InputMethodService;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -23,6 +24,7 @@ import com.roughike.bottombar.OnTabSelectListener;
 
 import butterknife.BindView;
 
+import static org.litepal.LitePalApplication.getContext;
 
 
 /**
@@ -34,10 +36,10 @@ import butterknife.BindView;
 public class MainActivity extends BaseActivity {
 
     private  BottomBar bbar_main;
-    private  Fragment  fg_one;
-    private  Fragment  fg_two;
-    private  Fragment  fg_three;
-    private  Fragment  fg_four;
+    private  OneFragment  fg_one;
+    private  TwoFragment  fg_two;
+    private  ThreeFragment  fg_three;
+    private  FourFragment  fg_four;
     public   FragmentManager fragmentManager;
     public   FragmentTransaction transaction;
 
@@ -46,9 +48,9 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.d("mainactivty", "onCreate:----- ");
 
         init();
-
         bbar_main.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(int tabId) {
@@ -62,7 +64,8 @@ public class MainActivity extends BaseActivity {
 //                        break;
 
                     case  R.id.tab_three:
-                        changeFragment(fg_three);
+
+                            changeFragment(fg_three);
                         break;
                     case R.id.tab_four:
                         changeFragment(fg_four);
@@ -81,7 +84,6 @@ public class MainActivity extends BaseActivity {
         fg_two=new TwoFragment();
         fg_three=new ThreeFragment();
         fg_four=new FourFragment();
-
 
     }
 
