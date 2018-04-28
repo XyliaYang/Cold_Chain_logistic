@@ -65,7 +65,7 @@ public class MainActivity extends BaseActivity {
 
                     case  R.id.tab_three:
 
-                            changeFragment(fg_three);
+                        changeFragment(fg_three);
                         break;
                     case R.id.tab_four:
                         changeFragment(fg_four);

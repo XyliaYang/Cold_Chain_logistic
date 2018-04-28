@@ -19,6 +19,7 @@ import com.example.hp.cold_chain_logistic.R;
 import com.example.hp.cold_chain_logistic.utils.HttpUtils;
 import com.example.hp.cold_chain_logistic.utils.Utility;
 import com.example.hp.cold_chain_logistic.utils.getParaListCallback;
+import com.thuongnh.zprogresshud.ZProgressHUD;
 import com.trncic.library.DottedProgressBar;
 
 import java.util.ArrayList;
@@ -36,28 +37,28 @@ import static android.content.ContentValues.TAG;
 
 public class ThreeShowFragment extends Fragment {
 
-    private DottedProgressBar dpb_fg_three;
+    private ZProgressHUD progressHUD;
+    private DottedProgressBar dottedProgressBar;
     private String url;
     private ArrayList<HashMap<String,String>>  mapArrayList=new ArrayList<>();
     private ImageView iv_fg_three_show_back;
     private  SimpleAdapter simpleAdapter;
     private ListView lv_fg_three_show;
     private int  count=0;
-    MyTimerTask timerTask = new MyTimerTask();
-    Timer timer=new Timer(true);
+    MyTimerTask timerTask = null;
+    Timer timer=null;
     Handler myHandler=new Handler(){
         public void handleMessage(Message msg){
             switch (msg.what){
                 case 1:
                     Log.d(TAG, "handleMessage: "+"实时刷新");
                     //刷新黑效果效果，停止pgb
-
+                    progressHUD.show();
+                    dottedProgressBar.stopProgress();
                     updataList();
                     break;
             }
         }
-
-
     };
 
 
@@ -69,6 +70,8 @@ public class ThreeShowFragment extends Fragment {
                     @Override
                     public void run() {
                         //显示成功,开始pgb
+                        progressHUD.dismissWithSuccess("加载成功");
+                        dottedProgressBar.startProgress();
                         mapArrayList = Utility.parseParatoHashList(data);
                         simpleAdapter.notifyDataSetChanged();
                         lv_fg_three_show.setAdapter(simpleAdapter);
@@ -79,30 +82,16 @@ public class ThreeShowFragment extends Fragment {
 
             @Override
             public void onInternetError() {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //刷新失败，开始pgb
-                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
-                        builder.setMessage("请确认已连接上服务器！")
-                                .setPositiveButton("确定", null);
-                        builder.show();
-                    }
-                });
+              //网络原因加载失败
+                progressHUD.dismissWithFailure("加载失败，请检查是否连接上网络");
+                dottedProgressBar.startProgress();
 
             }
 
             @Override
             public void onNoDataError() {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
-                        builder.setMessage("该IMSI无实时数据，核对后再重新发送！")
-                                .setPositiveButton("确定", null);
-                        builder.show();
-                    }
-                });
+                progressHUD.dismissWithFailure("加载失败，检查是否有实时数据");
+                dottedProgressBar.startProgress();
 
             }
         });
@@ -116,10 +105,12 @@ public class ThreeShowFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_three_show,container,false);
         iv_fg_three_show_back=view.findViewById(R.id.iv_fg_three_show_back);
         lv_fg_three_show=view.findViewById(R.id.lv_fg_three_show);
-        dpb_fg_three=view.findViewById(R.id.dpb_fg_three);
+        dottedProgressBar=view.findViewById(R.id.dpb_fg_three);
+        progressHUD=ZProgressHUD.getInstance(getContext());
+        timer=new Timer(true);
+        timerTask=new MyTimerTask();
 
-        showList();
-        dpb_fg_three.startProgress();
+
         return view;
     }
 
@@ -127,6 +118,10 @@ public class ThreeShowFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        showList();
+        dottedProgressBar.startProgress();
+
 
         //返回
         iv_fg_three_show_back.setOnClickListener(new View.OnClickListener() {
@@ -136,16 +131,64 @@ public class ThreeShowFragment extends Fragment {
             }
         });
 
-        timer.schedule(timerTask, 0, 3000);//定时每秒执行一次
+    }
+
+    /**
+     * 在启动计时任务
+     */
+    private void startTimer() {
+        if(timer==null)
+            timer=new Timer(true);
+        if(timerTask==null)
+            timerTask=new MyTimerTask();
+        timer.schedule(timerTask,0,6000);
+
+    }
+    /**
+     * 在当前fg在后台时停止该timer
+     */
+    private void stopTimer() {
+        if(timer!=null){
+            timer.cancel();
+            timer=null;
+        }
+        if(timerTask!=null){
+            timerTask.cancel();
+            timerTask=null;
+        }
 
     }
 
+
+    /**
+     * 在fg进入后台模式时停止计时器
+     */
+    @Override
+    public void onPause() {
+        super.onPause();
+        stopTimer();
+
+    }
+
+
+    /**
+     * 在进入该fg时又重新加载定时器
+     */
+    @Override
+    public void onStart() {
+        super.onStart();
+        startTimer();
+    }
+
+    /**
+     * 接收threefragment传递进来的data和url
+     * @param data
+     * @param url
+     */
     public void  setData(String data,String url){
         mapArrayList= Utility.parseParatoHashList(data);
         this.url=url;
     }
-
-
 
     /**
      * 展示列表
@@ -169,7 +212,6 @@ public class ThreeShowFragment extends Fragment {
     }
 
     private class MyTimerTask extends  TimerTask{
-
         @Override
         public void run() {
             Message message=new Message();
