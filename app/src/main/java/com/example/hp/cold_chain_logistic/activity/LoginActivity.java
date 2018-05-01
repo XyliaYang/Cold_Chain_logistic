@@ -9,12 +9,6 @@ import android.widget.TextView;
 import com.example.hp.cold_chain_logistic.R;
 import com.example.hp.cold_chain_logistic.base.BaseActivity;
 
-import org.w3c.dom.Text;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * @author liz
  * @version V1.0

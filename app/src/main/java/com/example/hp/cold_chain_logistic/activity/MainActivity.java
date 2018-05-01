@@ -15,16 +15,16 @@ import android.widget.Toast;
 
 import com.example.hp.cold_chain_logistic.R;
 import com.example.hp.cold_chain_logistic.base.BaseActivity;
+import com.example.hp.cold_chain_logistic.db.User;
 import com.example.hp.cold_chain_logistic.fragment.FourFragment;
 import com.example.hp.cold_chain_logistic.fragment.OneFragment;
 import com.example.hp.cold_chain_logistic.fragment.ThreeFragment;
 import com.example.hp.cold_chain_logistic.fragment.TwoFragment;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
+import com.thuongnh.zprogresshud.ZProgressHUD;
 
-import butterknife.BindView;
 
-import static org.litepal.LitePalApplication.getContext;
 
 
 /**
@@ -47,8 +47,6 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Log.d("mainactivty", "onCreate:----- ");
 
         init();
         bbar_main.setOnTabSelectListener(new OnTabSelectListener() {

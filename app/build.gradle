@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.example.hp.cold_chain_logistic"
@@ -9,13 +10,14 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
-            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    useLibrary 'org.apache.http.legacy'
 }
 
 dependencies {
@@ -25,15 +27,19 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    compile 'com.jakewharton:butterknife:8.5.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'com.android.support:design:26.1.0'
+    //1
     compile 'com.roughike:bottom-bar:2.3.1'
+    //2
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     compile 'com.squareup.okhttp3:okhttp:3.7.0'
+    compile 'com.squareup.okio:okio:1.9.0'
+    //3
     implementation files('libs/gson-2.8.0.jar')
-    compile 'org.litepal.android:core:1.5.0'
     compile 'com.github.igortrncic.dotted-progress-bar:library:1.0.0'
+    //4
     implementation project(':zProgressHUD')
     compile project(path: ':zProgressHUD')
+    //5
+
 }

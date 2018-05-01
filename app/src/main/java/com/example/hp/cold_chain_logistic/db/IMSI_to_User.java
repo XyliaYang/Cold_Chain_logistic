@@ -1,6 +1,5 @@
 package com.example.hp.cold_chain_logistic.db;
 
-import org.litepal.crud.DataSupport;
 
 /**
  * @author liz
@@ -8,7 +7,7 @@ import org.litepal.crud.DataSupport;
  * @date 2018/4/26
  */
 
-public class IMSI_to_User extends DataSupport {
+public class IMSI_to_User{
 
     private  int id;
     private int IMSI_id;

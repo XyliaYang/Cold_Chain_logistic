@@ -16,13 +16,13 @@ import com.example.hp.cold_chain_logistic.R;
 import com.example.hp.cold_chain_logistic.activity.MainActivity;
 import com.example.hp.cold_chain_logistic.db.IMSI;
 import com.example.hp.cold_chain_logistic.db.Para;
+import com.example.hp.cold_chain_logistic.ui.ComWidget;
 import com.example.hp.cold_chain_logistic.utils.HttpUtils;
 import com.example.hp.cold_chain_logistic.utils.getParaListCallback;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 
-import org.litepal.crud.DataSupport;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -105,10 +105,8 @@ public class OneFragment extends Fragment {
                 IMSICODE = et_fg_one.getText().toString();
 
                 if (IMSICODE.length() != 15) {  //IMSICODE号不正确
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setMessage("请输入正确的15位IMSI号！")
-                            .setPositiveButton("确定", null);
-                    builder.show();
+
+                    ComWidget.ToastShow("请输入正确的15位IMSI号！",getContext());
 
                 } else {
                     Random random = new Random();
@@ -116,9 +114,12 @@ public class OneFragment extends Fragment {
                     url = "https://www.suda-iot.com/AHL-Serve-Interface-CCL2/03_Web/FrameMessage.aspx?get&Android&" + IMSICODE + "&" + String.valueOf(s);
 
 
+
                     HttpUtils.getParaList(url, new getParaListCallback() {
                         @Override
                         public void onSuccess(String data) {
+
+
                             MainActivity mainActivity = (MainActivity) getActivity();
                             oneShowFragment.setData(data);
                             mainActivity.changeFragment(oneShowFragment);
@@ -127,30 +128,12 @@ public class OneFragment extends Fragment {
 
                         @Override
                         public void onInternetError() {
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                    builder.setMessage("请确认已连接上服务器！")
-                                            .setPositiveButton("确定", null);
-                                    builder.show();
-                                }
-                            });
-
+                            ComWidget.ToastShow("请确认已连接上服务器",getContext());
                         }
 
                         @Override
                         public void onNoDataError() {
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                    builder.setMessage("IMSI号无实时数据，核对后再重新发送！")
-                                            .setPositiveButton("确定", null);
-                                    builder.show();
-                                }
-                            });
-
+                            ComWidget.ToastShow("IMSI号无实时数据，核对后再重新发送！",getContext());
                         }
                     });
 

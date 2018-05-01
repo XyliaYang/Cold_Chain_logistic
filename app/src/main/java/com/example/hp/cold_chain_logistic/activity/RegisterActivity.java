@@ -13,7 +13,6 @@ import com.example.hp.cold_chain_logistic.base.BaseActivity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import butterknife.BindView;
 
 /**
  * @author liz
@@ -22,7 +21,6 @@ import butterknife.BindView;
  */
 
 public class RegisterActivity extends BaseActivity {
-
 
 
     @Override

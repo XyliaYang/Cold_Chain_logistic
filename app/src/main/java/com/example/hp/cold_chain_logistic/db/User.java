@@ -1,7 +1,7 @@
 package com.example.hp.cold_chain_logistic.db;
 
-import org.litepal.annotation.Column;
-import org.litepal.crud.DataSupport;
+
+
 
 /**
  * @author liz
@@ -9,17 +9,11 @@ import org.litepal.crud.DataSupport;
  * @date 2018/4/26
  */
 
-public class User extends DataSupport {
+public class User  {
 
     private int id;
-
-    @Column(unique = true)  //唯一
     private String accout;
-
-    @Column(nullable = false)
     private  String pwd;
-
-    @Column(nullable = false) //非空
     private String signature;
     private String nickname;
 

@@ -9,7 +9,6 @@ import android.view.View;
 
 import com.example.hp.cold_chain_logistic.beans.ActivityCollector;
 
-import butterknife.ButterKnife;
 
 /**
  * 功能：隐藏标题栏

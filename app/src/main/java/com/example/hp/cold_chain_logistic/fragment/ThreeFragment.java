@@ -105,10 +105,14 @@ public class ThreeFragment extends Fragment {
                     int s = random.nextInt(1000);
 
                     url="https://www.suda-iot.com/AHL-Serve-Interface-CCL2/03_Web/FrameMessage.aspx?get:new&"+IMSICODE;
+                    Log.d("threefragment", "threefg url: "+url);
                     HttpUtils.getParaList(url, new getParaListCallback() {
                         @Override
                         public void onSuccess(String data) {
                             MainActivity mainActivity = (MainActivity) getActivity();
+
+                            Log.d("threefragment", "threefg data: "+data);
+
                             threeShowFragment.setData(data,url);
                             mainActivity.changeFragment(threeShowFragment);
                             mainActivity.transaction.addToBackStack(null);

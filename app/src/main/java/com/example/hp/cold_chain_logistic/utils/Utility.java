@@ -36,7 +36,7 @@ public class Utility {
         Gson  gson=new Gson();
         paraList=gson.fromJson(data, new TypeToken<List<Para>>(){}.getType());
 
-        for(int i=0;i<paraList.size();i++){
+        for(int i=2;i<paraList.size();i++){
             Para para=paraList.get(i);
             HashMap<String,String> map=new HashMap<>();
             map.put("one_show_item_title",para.getName());

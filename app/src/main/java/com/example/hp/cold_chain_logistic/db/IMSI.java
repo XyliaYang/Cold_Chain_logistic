@@ -1,7 +1,5 @@
 package com.example.hp.cold_chain_logistic.db;
 
-import org.litepal.annotation.Column;
-import org.litepal.crud.DataSupport;
 
 /**
  * @author liz
@@ -9,10 +7,9 @@ import org.litepal.crud.DataSupport;
  * @date 2018/4/25
  */
 
-public class IMSI extends DataSupport {
+public class IMSI {
     private int id;  //自增字段
 
-    @Column(unique = true,nullable = false)  //唯一
     private  String box_id; //IMSI
 
 

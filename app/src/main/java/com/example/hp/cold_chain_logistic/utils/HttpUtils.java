@@ -23,11 +23,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static org.litepal.LitePalApplication.getContext;
 
 /**
- * 网络请求的封装
- *
+ * http connection
  * @author liz
  * @version V1.0
  * @date 2018/3/29
@@ -35,7 +33,11 @@ import static org.litepal.LitePalApplication.getContext;
 
 public class HttpUtils {
 
-
+    /**
+     *
+     * @param address
+     * @param callback
+     */
     public static void sendOkHttpRequest(String address, okhttp3.Callback callback) {
 
         //address为请求的url
@@ -49,6 +51,7 @@ public class HttpUtils {
 
 
     /**
+     *
      * 请求url返回para的json
      * @param url
      * @return
