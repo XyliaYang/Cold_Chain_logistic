@@ -28,18 +28,12 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile 'com.android.support:design:26.1.0'
-    //1
     compile 'com.roughike:bottom-bar:2.3.1'
-    //2
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     compile 'com.squareup.okhttp3:okhttp:3.7.0'
-    compile 'com.squareup.okio:okio:1.9.0'
-    //3
     implementation files('libs/gson-2.8.0.jar')
     compile 'com.github.igortrncic.dotted-progress-bar:library:1.0.0'
-    //4
     implementation project(':zProgressHUD')
     compile project(path: ':zProgressHUD')
-    //5
 
 }

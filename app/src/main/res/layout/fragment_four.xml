@@ -76,7 +76,7 @@
                 android:id="@+id/textView7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/text_intro_black"
+                style="@style/text_intro"
                 android:layout_margin="15dp"
                 android:text="@string/fg_four_list" />
 

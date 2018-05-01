@@ -15,16 +15,22 @@ import android.widget.Toast;
 
 import com.example.hp.cold_chain_logistic.R;
 import com.example.hp.cold_chain_logistic.base.BaseActivity;
-import com.example.hp.cold_chain_logistic.db.User;
 import com.example.hp.cold_chain_logistic.fragment.FourFragment;
 import com.example.hp.cold_chain_logistic.fragment.OneFragment;
 import com.example.hp.cold_chain_logistic.fragment.ThreeFragment;
 import com.example.hp.cold_chain_logistic.fragment.TwoFragment;
+import com.example.hp.cold_chain_logistic.ui.ComWidget;
+import com.example.hp.cold_chain_logistic.utils.HttpUrlCallback;
+import com.example.hp.cold_chain_logistic.utils.HttpUtils;
+import com.example.hp.cold_chain_logistic.utils.Utility;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 import com.thuongnh.zprogresshud.ZProgressHUD;
 
+import java.io.IOException;
 
+import okhttp3.Call;
+import okhttp3.Response;
 
 
 /**
@@ -42,6 +48,9 @@ public class MainActivity extends BaseActivity {
     private  FourFragment  fg_four;
     public   FragmentManager fragmentManager;
     public   FragmentTransaction transaction;
+
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

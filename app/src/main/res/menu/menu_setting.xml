@@ -6,4 +6,9 @@
         android:title="帮助"
         android:id="@+id/item_setting_help"
         />
+
+    <item
+        android:title="退出"
+        android:id="@+id/item_setting_exit"
+        />
 </menu>

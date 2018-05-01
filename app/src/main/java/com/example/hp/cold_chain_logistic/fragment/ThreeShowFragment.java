@@ -16,16 +16,20 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.example.hp.cold_chain_logistic.R;
+import com.example.hp.cold_chain_logistic.ui.ComWidget;
 import com.example.hp.cold_chain_logistic.utils.HttpUtils;
 import com.example.hp.cold_chain_logistic.utils.Utility;
-import com.example.hp.cold_chain_logistic.utils.getParaListCallback;
 import com.thuongnh.zprogresshud.ZProgressHUD;
 import com.trncic.library.DottedProgressBar;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import okhttp3.Call;
+import okhttp3.Response;
 
 import static android.content.ContentValues.TAG;
 
@@ -63,39 +67,52 @@ public class ThreeShowFragment extends Fragment {
 
 
     private void updataList() {
-        HttpUtils.getParaList(url, new getParaListCallback() {
+        HttpUtils.sendOkHttpRequest(url, new okhttp3.Callback() {
             @Override
-            public void onSuccess(final String data) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //显示成功,开始pgb
-                        progressHUD.dismissWithSuccess("加载成功");
-                        dottedProgressBar.startProgress();
-                        mapArrayList = Utility.parseParatoHashList(data);
-                        simpleAdapter.notifyDataSetChanged();
-                        lv_fg_three_show.setAdapter(simpleAdapter);
-
-                    }
-                });
-            }
-
-            @Override
-            public void onInternetError() {
-              //网络原因加载失败
+            public void onFailure(Call call, IOException e) {
+                //网络原因加载失败
                 progressHUD.dismissWithFailure("加载失败，请检查是否连接上网络");
                 dottedProgressBar.startProgress();
 
             }
 
             @Override
-            public void onNoDataError() {
-                progressHUD.dismissWithFailure("加载失败，检查是否有实时数据");
-                dottedProgressBar.startProgress();
+            public void onResponse(Call call, Response response) throws IOException {
 
+                final String data=response.body().string();
+                final  String result=Utility.isValueTure(data);
+                if(result.equals("false")){
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ComWidget.ToastShow("该IMSI无实时数据！",getActivity());
+                        }
+                    });
+
+                }else{
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //显示成功,开始pgb
+                            progressHUD.dismissWithSuccess("加载成功");
+                            dottedProgressBar.startProgress();
+                            mapArrayList = Utility.parseJsonArrayToHashArray(data);
+                            simpleAdapter.notifyDataSetChanged();
+                            lv_fg_three_show.setAdapter(simpleAdapter);
+
+                        }
+                    });
+                }
             }
-        });
 
+
+//            @Override
+//            public void onNoDataError() {
+//                progressHUD.dismissWithFailure("加载失败，检查是否有实时数据");
+//                dottedProgressBar.startProgress();
+//
+//            }
+        });
 
     }
 
@@ -186,7 +203,7 @@ public class ThreeShowFragment extends Fragment {
      * @param url
      */
     public void  setData(String data,String url){
-        mapArrayList= Utility.parseParatoHashList(data);
+        mapArrayList= Utility.parseJsonArrayToHashArray(data);
         this.url=url;
     }
 

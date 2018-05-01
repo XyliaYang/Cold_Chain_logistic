@@ -18,9 +18,11 @@ import android.widget.TextView;
 
 import com.example.hp.cold_chain_logistic.R;
 import com.example.hp.cold_chain_logistic.activity.MainActivity;
+import com.example.hp.cold_chain_logistic.base.ConstData;
 import com.example.hp.cold_chain_logistic.db.Para;
+import com.example.hp.cold_chain_logistic.ui.ComWidget;
 import com.example.hp.cold_chain_logistic.utils.HttpUtils;
-import com.example.hp.cold_chain_logistic.utils.getParaListCallback;
+import com.example.hp.cold_chain_logistic.utils.Utility;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -48,7 +50,7 @@ public class ThreeFragment extends Fragment {
     public EditText et_fg_one;
     public ImageView iv_fg_one_del;
     public Button btn_fg_one_listen;
-    public String url;
+    public String url= ConstData.getAhlInterfaceServer()+"get:new&";
     public ThreeShowFragment threeShowFragment;
 
     @Nullable
@@ -86,17 +88,11 @@ public class ThreeFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                /**
-                 * 1.IMSICODE号不正确
-                 * 2.IMSICODE返回false
-                 * 3.IMSICODE号从服务器中查询出
-                 * 4.没有连接上服务器，网络错误
-                 */
                 IMSICODE = et_fg_one.getText().toString();
 
                 if (IMSICODE.length() != 15) {  //IMSICODE号不正确
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setMessage("请输入正确的15位IMSI号！")
+                    builder.setMessage("请输入15位IMSI号！")
                             .setPositiveButton("确定", null);
                     builder.show();
 
@@ -104,49 +100,47 @@ public class ThreeFragment extends Fragment {
                     Random random = new Random();
                     int s = random.nextInt(1000);
 
-                    url="https://www.suda-iot.com/AHL-Serve-Interface-CCL2/03_Web/FrameMessage.aspx?get:new&"+IMSICODE;
-                    Log.d("threefragment", "threefg url: "+url);
-                    HttpUtils.getParaList(url, new getParaListCallback() {
+                    url+=IMSICODE;
+                    HttpUtils.sendOkHttpRequest(url, new okhttp3.Callback() {
                         @Override
-                        public void onSuccess(String data) {
-                            MainActivity mainActivity = (MainActivity) getActivity();
-
-                            Log.d("threefragment", "threefg data: "+data);
-
-                            threeShowFragment.setData(data,url);
-                            mainActivity.changeFragment(threeShowFragment);
-                            mainActivity.transaction.addToBackStack(null);
-
-                        }
-
-                        @Override
-                        public void onInternetError() {
+                        public void onFailure(Call call, IOException e) {
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                    builder.setMessage("请确认已连接上服务器！")
-                                            .setPositiveButton("确定", null);
-                                    builder.show();
+                                    ComWidget.ToastShow("请检查网络状态!",getActivity());
                                 }
                             });
 
                         }
 
                         @Override
-                        public void onNoDataError() {
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                    builder.setMessage("IMSI号无实时数据，核对后再重新发送！")
-                                            .setPositiveButton("确定", null);
-                                    builder.show();
-                                }
-                            });
+                        public void onResponse(Call call, Response response) throws IOException {
+                            //jsonarray
+                            String data=response.body().string();
+                            //whether exists data
+                            String result= Utility.isValueTure(data);
 
+                            if(result.equals("false")){
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ComWidget.ToastShow("该IMSI无实时数据！",getActivity());
+                                    }
+                                });
+
+                            }else{
+                                //和 the IMSI has data,start showfragment
+                                MainActivity mainActivity = (MainActivity) getActivity();
+
+                                threeShowFragment.setData(data,url);
+                                mainActivity.changeFragment(threeShowFragment);
+                                mainActivity.transaction.addToBackStack(null);
+                            }
                         }
                     });
+
+
+
 
                 }
             }

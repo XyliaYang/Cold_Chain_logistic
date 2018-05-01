@@ -19,6 +19,7 @@ public class ComWidget {
      * @param context
      */
     public static void  ToastShow(String msg, Context context){
+
         AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
         builder.setMessage(msg)
                 .setPositiveButton("确定", null);

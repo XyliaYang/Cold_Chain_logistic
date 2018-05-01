@@ -6,7 +6,7 @@
 
     <!--common-->
     <string name="username">账户</string>
-    <string name="username_hint">请输入邮箱或者手机</string>
+    <string name="username_hint">请输入账户</string>
     <string name="pwd">密码</string>
     <string name="pwd_hint">请输入密码</string>
 
