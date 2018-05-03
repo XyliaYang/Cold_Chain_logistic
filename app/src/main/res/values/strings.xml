@@ -51,8 +51,10 @@
     <!--fg_four_help-->
     <string name="fg_four_help_title">冷链物流说明书</string>
     <string name="fg_four_help_text">
- NB-IoT终端（Ultimate-Equipment，UE）是一种以微控制器（MCU）为核心，具有数据采集、控制、运算等功能，带有NB-IoT通信功能，甚至包含机械结构，用于特定功能的软硬件实体。
-  NB-IoT信息邮局（Mssage Post Office，MPO）是一种基于NB-IoT协议的信息传送系统。
+     冷链物流包含一套将终端UE转发到用户服务器US的通信过程，通过云服务器进行转发。
+   NB-IoT终端（UE）是一种以微控制器（MCU）为核心，具有数据采集、控制、运算、NB-IoT通信功能，用于特定功能的软硬件实体。
+   NB-IoT信息邮局(MPO)在NB-IoT终端（UE）与NB-IoT人机交互系统（HCI）之间起信息传送的桥梁作用。
+   NB-IoT人机交互系统（HCI）是实现人与NB-IoT信息邮局（NB-IoT云服务器）之间信息交互、信息处理与信息服务的软硬件系统。目标是使人们能够利用通用计算机（PC）、笔记本电脑、平板电脑、手机等设备，通过NB-IoT信息邮局MPO，实现获取NB-IoT终端UE的数据，并可实现对终端UE的控制等功能。
     </string>
 
 </resources>

@@ -41,8 +41,8 @@ import okhttp3.Response;
 
 public class MainActivity extends BaseActivity {
 
-    private  BottomBar bbar_main;
-    private  OneFragment  fg_one;
+    public   BottomBar bbar_main;
+    public   OneFragment  fg_one;
     private  TwoFragment  fg_two;
     private  ThreeFragment  fg_three;
     private  FourFragment  fg_four;
@@ -58,6 +58,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         init();
+
         bbar_main.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(int tabId) {

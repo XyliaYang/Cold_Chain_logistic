@@ -1,5 +1,7 @@
 package com.example.hp.cold_chain_logistic.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -54,8 +57,7 @@ private ImageView iv_fg_four_setting;
 private List<String> list = new ArrayList<String>();
 private ArrayAdapter<String> arrayAdapter;
 private FourHelpFragment fourHelpFragment;
-private String url=ConstData.getUSER_ITERFACE_SERVER()+"query_imsi.php?account="+ConstData.getAccount();
-
+private String url = ConstData.getUSER_ITERFACE_SERVER() + "query_imsi.php?account=" + ConstData.getAccount();
 
 
 @Nullable
@@ -78,7 +80,7 @@ return view;
 
 private void initList() {
 list.clear();
-list.add("~你还没有添加过IMSI哦~");
+list.add("~!!你还没有添加过IMSI哦!!~");
 }
 
 @Override
@@ -86,77 +88,131 @@ public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 super.onActivityCreated(savedInstanceState);
 
 
-HttpUtils.sendOkHttpRequest(url, new okhttp3.Callback() {
-    @Override
-    public void onFailure(Call call, IOException e) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ComWidget.ToastShow("请检查网络状态!",getActivity());
-            }
-        });
+lv_fg_four.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+@Override
+public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-    }
-
-    @Override
-    public void onResponse(Call call, Response response) throws IOException {
-        String data = response.body().string();
-
-        switch ((int) Utility.getJsonObjectAttr(data, "code")) {
-            case 200:
-
-
-
-                break;
-            case 401:
-                initList();
-                arrayAdapter.notifyDataSetChanged();
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        lv_fg_four.setAdapter(arrayAdapter);
-                    }
-                });
-                break;
-            default:
-                break;
-
-        }
-
-    }
+    MainActivity activity= (MainActivity) getActivity();
+    OneFragment oneFragment=new OneFragment();
+    oneFragment.setData(list.get(position));
+    activity.changeFragment(oneFragment);
+    activity.bbar_main.selectTabWithId(R.id.tab_one);
+}
 });
 
 
+HttpUtils.sendOkHttpRequest(url, new okhttp3.Callback() {
+@Override
+public void onFailure(Call call, IOException e) {
+    getActivity().runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+            ComWidget.ToastShow("请检查网络状态!", getActivity());
+            initList();
+            arrayAdapter.notifyDataSetChanged();
+            lv_fg_four.setAdapter(arrayAdapter);
+        }
+    });
+
+}
+
+@Override
+public void onResponse(Call call, Response response) throws IOException {
+    String data = response.body().string();
+
+    switch ((int) Utility.getJsonObjectAttr(data, "code")) {
+        case 200:
+            list.clear();
+            JSONArray jsonArray=Utility.getJsonObjectAttr(data,"data");
+            for (int i=0;i<jsonArray.length();i++){
+
+                try {
+                    String s= (String) jsonArray.get(i);
+                    s=s.replace("\"","");
+                    list.add(s);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    arrayAdapter.notifyDataSetChanged();
+                    lv_fg_four.setAdapter(arrayAdapter);
+                }
+            });
+            break;
+
+        case 401:
+            initList();
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    arrayAdapter.notifyDataSetChanged();
+                    lv_fg_four.setAdapter(arrayAdapter);
+                }
+            });
+            break;
+        default:
+            break;
+
+    }
+
+}
+});
+
 
 iv_fg_four_setting.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        PopupMenu popupMenu = new PopupMenu(getContext(), iv_fg_four_setting);
-        popupMenu.getMenuInflater().inflate(R.menu.menu_setting, popupMenu.getMenu());
+@Override
+public void onClick(View v) {
+    PopupMenu popupMenu = new PopupMenu(getContext(), iv_fg_four_setting);
+    popupMenu.getMenuInflater().inflate(R.menu.menu_setting, popupMenu.getMenu());
 
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.item_setting_help:
+    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.item_setting_help:
 
-                        //fg调用activity的方法
-                        MainActivity mainActivity = (MainActivity) getActivity();
-                        mainActivity.changeFragment(fourHelpFragment);
-                        mainActivity.transaction.addToBackStack(null);
-                        break;
+                    //fg调用activity的方法
+                    MainActivity mainActivity = (MainActivity) getActivity();
+                    mainActivity.changeFragment(fourHelpFragment);
+                    mainActivity.transaction.addToBackStack(null);
+                    break;
 
-                    //exit
-                    case R.id.item_setting_exit:
+                //exit
+                case R.id.item_setting_exit:
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
+                            builder.setMessage("确定要退出吗？")
+                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                            Intent intent=new Intent(getActivity(),LoginActivity.class);
+                                            startActivity(intent);
+                                            getActivity().finish();
+
+                                        }
+                                    })
+                            .setNegativeButton("取消",null);
+                            builder.show();
+                        }
+                    });
 
 
-                }
-                return true;
             }
-        });
+            return true;
+        }
+    });
 
-        popupMenu.show();
-    }
+    popupMenu.show();
+}
 });
 }
 }

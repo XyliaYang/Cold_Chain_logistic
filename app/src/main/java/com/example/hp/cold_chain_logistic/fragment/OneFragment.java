@@ -59,6 +59,10 @@ public class OneFragment extends Fragment {
 
     public static String IMSICODE = "";
     private String url= ConstData.getAhlInterfaceServer()+"get&Android&";
+    public String et_string="";
+
+
+
 
     @Nullable
     @Override
@@ -74,7 +78,18 @@ public class OneFragment extends Fragment {
         iv_fg_one_del = view.findViewById(R.id.iv_fg_one_del);
         oneShowFragment = new OneShowFragment();
 
+       // et_fg_one.setSaveEnabled(false);
+
         return view;
+    }
+
+
+    /**
+     * set edittext context is s
+     * @param s
+     */
+    public void setData(String s){
+        et_string=s;
     }
 
     /**
@@ -86,13 +101,16 @@ public class OneFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        if(!et_string.equals("")){
+            et_fg_one.setText(et_string);
+        }
 
 
          //清空按钮
         iv_fg_one_del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                et_fg_one.setText("");
+                et_fg_one.setText("111");
             }
         });
 
