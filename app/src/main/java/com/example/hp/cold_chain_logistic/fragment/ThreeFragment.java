@@ -46,12 +46,13 @@ import static android.content.ContentValues.TAG;
 public class ThreeFragment extends Fragment {
 
     public TextView tv_fg_one;
-    public  String IMSICODE;
     public EditText et_fg_one;
     public ImageView iv_fg_one_del;
     public Button btn_fg_one_listen;
     public String url= ConstData.getAhlInterfaceServer()+"get:new&";
     public ThreeShowFragment threeShowFragment;
+
+    public  String IMSICODE="";
 
     @Nullable
     @Override
@@ -66,13 +67,30 @@ public class ThreeFragment extends Fragment {
 
         tv_fg_one.setText("实时查询");
 
+        et_fg_one.setSaveEnabled(false);
+
+        if(!IMSICODE.equals("")){
+            et_fg_one.setText(IMSICODE);
+        }
+
         return view;
+    }
+
+
+    /**
+     * set the IMSI = s
+     * @param s
+     */
+    public  void setData(String s){
+        IMSICODE=s;
     }
 
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        Log.d("mainactivity", "onActivityCreated: imsicode:---"+IMSICODE);
 
 
         //清空按钮

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:orientation="vertical"
+        android:background="@mipmap/bg_login"
+        >
+
+
+        <com.example.hp.cold_chain_logistic.ui.TitleActivityLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        </com.example.hp.cold_chain_logistic.ui.TitleActivityLayout>
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_weight="5"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="找回密码"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text_intro"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="@string/find_pwd_phone" />
+
+            <EditText
+                android:id="@+id/et_find_pwd_phone"
+                style="@style/edit"
+                android:layout_width="match_parent"
+                android:hint="@string/find_pwd_phone_hint" />
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text_intro"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="@string/find_pwd_validate" />
+
+            <EditText
+                android:id="@+id/et_find_pwd_validate"
+                style="@style/edit"
+                android:layout_width="120dp"
+                android:hint="@string/find_pwd_validate_hint" />
+
+            <Button
+                android:id="@+id/bt_find_pwd_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发送" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text_intro"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="@string/pwd" />
+
+            <EditText
+                android:id="@+id/et_find_pwd_pwd"
+                style="@style/edit"
+                android:layout_width="match_parent"
+                android:inputType="textPassword"
+                android:hint="@string/pwd_hint" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text_intro"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="@string/register_pwd_confirm" />
+
+            <EditText
+                android:id="@+id/et_pwd_find_pwd_again"
+                style="@style/edit"
+                android:layout_width="match_parent"
+                android:hint="@string/register_pwd_confirm_hint"
+                android:inputType="textPassword" />
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_find_pwd"
+        style="@style/btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="35dp"
+        android:text="确认修改" />
+
+</LinearLayout>

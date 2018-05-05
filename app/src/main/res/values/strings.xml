@@ -21,6 +21,11 @@
     <string name="register_autograph">个性签名</string>
     <string name="register_autograph_hint">一句话介绍自己</string>
 
+    <!--find_pwd-->
+    <string name="find_pwd_phone">手机号</string>
+    <string name="find_pwd_phone_hint">请输入手机号</string>
+    <string name="find_pwd_validate">验证码</string>
+    <string name="find_pwd_validate_hint">请输入验证码</string>
 
 
 

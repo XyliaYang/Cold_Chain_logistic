@@ -78,7 +78,7 @@ public class OneFragment extends Fragment {
         iv_fg_one_del = view.findViewById(R.id.iv_fg_one_del);
         oneShowFragment = new OneShowFragment();
 
-       // et_fg_one.setSaveEnabled(false);
+        et_fg_one.setSaveEnabled(false);
 
         return view;
     }
@@ -104,6 +104,8 @@ public class OneFragment extends Fragment {
         if(!et_string.equals("")){
             et_fg_one.setText(et_string);
         }
+
+        Log.d("mainactivity", "onActivityCreated: et_string:---"+et_string);
 
 
          //清空按钮

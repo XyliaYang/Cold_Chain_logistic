@@ -89,130 +89,157 @@ super.onActivityCreated(savedInstanceState);
 
 
 lv_fg_four.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-@Override
-public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 
-    MainActivity activity= (MainActivity) getActivity();
-    OneFragment oneFragment=new OneFragment();
-    oneFragment.setData(list.get(position));
-    activity.changeFragment(oneFragment);
-    activity.bbar_main.selectTabWithId(R.id.tab_one);
-}
+        final MainActivity activity = (MainActivity) getActivity();
+
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("请选择查询方式！")
+                        .setPositiveButton("普通查询", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                OneFragment oneFragment = activity.fg_one;
+                                oneFragment.setData(list.get(position));
+                                activity.changeFragment(oneFragment);
+                                activity.bbar_main.selectTabWithId(R.id.tab_one);
+
+                            }
+                        })
+                        .setNegativeButton("实时查询", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ThreeFragment threeFragment = activity.fg_three;
+                                threeFragment.setData(list.get(position));
+                                activity.changeFragment(threeFragment);
+                                activity.bbar_main.selectTabWithId(R.id.tab_three);
+
+                            }
+                        }).show();
+            }
+        });
+
+
+    }
 });
 
 
 HttpUtils.sendOkHttpRequest(url, new okhttp3.Callback() {
-@Override
-public void onFailure(Call call, IOException e) {
-    getActivity().runOnUiThread(new Runnable() {
-        @Override
-        public void run() {
-            ComWidget.ToastShow("请检查网络状态!", getActivity());
-            initList();
-            arrayAdapter.notifyDataSetChanged();
-            lv_fg_four.setAdapter(arrayAdapter);
-        }
-    });
-
-}
-
-@Override
-public void onResponse(Call call, Response response) throws IOException {
-    String data = response.body().string();
-
-    switch ((int) Utility.getJsonObjectAttr(data, "code")) {
-        case 200:
-            list.clear();
-            JSONArray jsonArray=Utility.getJsonObjectAttr(data,"data");
-            for (int i=0;i<jsonArray.length();i++){
-
-                try {
-                    String s= (String) jsonArray.get(i);
-                    s=s.replace("\"","");
-                    list.add(s);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
+    @Override
+    public void onFailure(Call call, IOException e) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ComWidget.ToastShow("请检查网络状态!", getActivity());
+                initList();
+                arrayAdapter.notifyDataSetChanged();
+                lv_fg_four.setAdapter(arrayAdapter);
             }
-
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    arrayAdapter.notifyDataSetChanged();
-                    lv_fg_four.setAdapter(arrayAdapter);
-                }
-            });
-            break;
-
-        case 401:
-            initList();
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    arrayAdapter.notifyDataSetChanged();
-                    lv_fg_four.setAdapter(arrayAdapter);
-                }
-            });
-            break;
-        default:
-            break;
+        });
 
     }
 
-}
+    @Override
+    public void onResponse(Call call, Response response) throws IOException {
+        String data = response.body().string();
+
+        switch ((int) Utility.getJsonObjectAttr(data, "code")) {
+            case 200:
+                list.clear();
+                JSONArray jsonArray = Utility.getJsonObjectAttr(data, "data");
+                for (int i = 0; i < jsonArray.length(); i++) {
+
+                    try {
+                        String s = (String) jsonArray.get(i);
+                        s = s.replace("\"", "");
+                        list.add(s);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        arrayAdapter.notifyDataSetChanged();
+                        lv_fg_four.setAdapter(arrayAdapter);
+                    }
+                });
+                break;
+
+            case 401:
+                initList();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        arrayAdapter.notifyDataSetChanged();
+                        lv_fg_four.setAdapter(arrayAdapter);
+                    }
+                });
+                break;
+            default:
+                break;
+
+        }
+
+    }
 });
 
 
 iv_fg_four_setting.setOnClickListener(new View.OnClickListener() {
-@Override
-public void onClick(View v) {
-    PopupMenu popupMenu = new PopupMenu(getContext(), iv_fg_four_setting);
-    popupMenu.getMenuInflater().inflate(R.menu.menu_setting, popupMenu.getMenu());
+    @Override
+    public void onClick(View v) {
+        PopupMenu popupMenu = new PopupMenu(getContext(), iv_fg_four_setting);
+        popupMenu.getMenuInflater().inflate(R.menu.menu_setting, popupMenu.getMenu());
 
-    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.item_setting_help:
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.item_setting_help:
 
-                    //fg调用activity的方法
-                    MainActivity mainActivity = (MainActivity) getActivity();
-                    mainActivity.changeFragment(fourHelpFragment);
-                    mainActivity.transaction.addToBackStack(null);
-                    break;
+                        //fg调用activity的方法
+                        MainActivity mainActivity = (MainActivity) getActivity();
+                        mainActivity.changeFragment(fourHelpFragment);
+                        mainActivity.transaction.addToBackStack(null);
+                        break;
 
-                //exit
-                case R.id.item_setting_exit:
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
+                    //exit
+                    case R.id.item_setting_exit:
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
 
-                            AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
-                            builder.setMessage("确定要退出吗？")
-                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                builder.setMessage("确定要退出吗？")
+                                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
 
-                                            Intent intent=new Intent(getActivity(),LoginActivity.class);
-                                            startActivity(intent);
-                                            getActivity().finish();
+                                                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                                startActivity(intent);
+                                                getActivity().finish();
 
-                                        }
-                                    })
-                            .setNegativeButton("取消",null);
-                            builder.show();
-                        }
-                    });
+                                            }
+                                        })
+                                        .setNegativeButton("取消", null);
+                                builder.show();
+                            }
+                        });
 
 
+                }
+                return true;
             }
-            return true;
-        }
-    });
+        });
 
-    popupMenu.show();
-}
+        popupMenu.show();
+    }
 });
 }
 }

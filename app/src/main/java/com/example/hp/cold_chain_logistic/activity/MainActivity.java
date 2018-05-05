@@ -44,8 +44,8 @@ public class MainActivity extends BaseActivity {
     public   BottomBar bbar_main;
     public   OneFragment  fg_one;
     private  TwoFragment  fg_two;
-    private  ThreeFragment  fg_three;
-    private  FourFragment  fg_four;
+    public   ThreeFragment  fg_three;
+    public   FourFragment  fg_four;
     public   FragmentManager fragmentManager;
     public   FragmentTransaction transaction;
 

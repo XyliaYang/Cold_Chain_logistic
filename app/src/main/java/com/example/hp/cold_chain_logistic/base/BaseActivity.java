@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.example.hp.cold_chain_logistic.beans.ActivityCollector;
+import com.mob.MobSDK;
 
 
 /**
@@ -24,6 +25,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        MobSDK.init(this);
         startActivityState(this);
         init();
 
