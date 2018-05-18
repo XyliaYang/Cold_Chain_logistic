@@ -102,7 +102,7 @@ public class FindPwdActivity extends BaseActivity {
 
                 }else{
                     submitCode("86",phone,validate);
-
+                    onDestroy();
                 }
 
             }
@@ -217,4 +217,13 @@ public class FindPwdActivity extends BaseActivity {
         // 触发操作
         SMSSDK.getVerificationCode(country,phone);
     }
+
+    /**
+     * destroy msg SDK after user it
+     */
+    protected void onDestroy() {
+        super.onDestroy();
+        //用完回调要注销掉，否则可能会出现内存泄露
+        SMSSDK.unregisterAllEventHandler();
+    };
 }
