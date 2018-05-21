@@ -8,14 +8,17 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.example.hp.cold_chain_logistic.R;
+import com.example.hp.cold_chain_logistic.activity.MainActivity;
 import com.example.hp.cold_chain_logistic.ui.ComWidget;
 import com.example.hp.cold_chain_logistic.utils.HttpUtils;
 import com.example.hp.cold_chain_logistic.utils.Utility;
@@ -41,6 +44,8 @@ import static android.content.ContentValues.TAG;
 
 public class ThreeShowFragment extends Fragment {
 
+    public   CanvasFragment canvasFragment;
+    private ImageView iv_fg_three_setting;
     private ZProgressHUD progressHUD;
     private DottedProgressBar dottedProgressBar;
     private String url;
@@ -49,13 +54,13 @@ public class ThreeShowFragment extends Fragment {
     private  SimpleAdapter simpleAdapter;
     private ListView lv_fg_three_show;
     private int  count=0;
+
     MyTimerTask timerTask = null;
     Timer timer=null;
     Handler myHandler=new Handler(){
         public void handleMessage(Message msg){
             switch (msg.what){
                 case 1:
-                    Log.d(TAG, "handleMessage: "+"实时刷新");
                     //刷新黑效果效果，停止pgb
                     progressHUD.show();
                     dottedProgressBar.stopProgress();
@@ -122,11 +127,13 @@ public class ThreeShowFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_three_show,container,false);
         iv_fg_three_show_back=view.findViewById(R.id.iv_fg_three_show_back);
         lv_fg_three_show=view.findViewById(R.id.lv_fg_three_show);
+        iv_fg_three_setting=view.findViewById(R.id.iv_fg_three_setting);
+
         dottedProgressBar=view.findViewById(R.id.dpb_fg_three);
         progressHUD=ZProgressHUD.getInstance(getContext());
         timer=new Timer(true);
         timerTask=new MyTimerTask();
-
+        canvasFragment=new CanvasFragment();
 
         return view;
     }
@@ -139,7 +146,6 @@ public class ThreeShowFragment extends Fragment {
         showList();
         dottedProgressBar.startProgress();
 
-
         //返回
         iv_fg_three_show_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,6 +154,34 @@ public class ThreeShowFragment extends Fragment {
             }
         });
 
+
+        //下拉框
+        iv_fg_three_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                PopupMenu popupMenu = new PopupMenu(getContext(), iv_fg_three_setting);
+                popupMenu.getMenuInflater().inflate(R.menu.menu_fg_three, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.item_fg_three_canvas:
+                                MainActivity mainActivity = (MainActivity) getActivity();
+                                canvasFragment.setData(url);
+                                mainActivity.changeFragment(canvasFragment);
+                                mainActivity.transaction.addToBackStack(null);
+
+                                break;
+                        }
+                        return true;
+                    }
+                });
+
+                popupMenu.show();
+            }
+        });
     }
 
     /**

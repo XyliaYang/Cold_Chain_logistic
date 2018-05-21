@@ -13,14 +13,15 @@
         android:layout_weight="1">
 
         <ImageView
-            android:id="@+id/iv_fg_three_show_back"
+            android:id="@+id/iv_canvas_back"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_margin="10dp"
             app:srcCompat="@drawable/ic_back" />
 
+
         <ImageView
-            android:id="@+id/iv_fg_three_setting"
+            android:id="@+id/iv_fg_canvas_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -38,29 +39,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="10"
+        android:background="@color/colorWhite"
         >
-        <ListView
-            android:id="@+id/lv_fg_three_show"
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lineChart"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:dividerHeight="6dp"
+            android:layout_height="300dp"
+            android:layout_margin="20dp"
+            android:layout_gravity="center"
             />
 
     </LinearLayout>
-
-    <com.trncic.library.DottedProgressBar
-        android:id="@+id/dpb_fg_three"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="200dp"
-        android:layout_height="0dp"
-        android:padding="15dp"
-        app:activeDot="@color/colorPrimary"
-        app:dotSize="12dp"
-        app:inactiveDot="@color/colorWhite"
-        app:jumpingSpeed="1000"
-        app:spacing="15dp" />
-
-
-
 
 </LinearLayout>

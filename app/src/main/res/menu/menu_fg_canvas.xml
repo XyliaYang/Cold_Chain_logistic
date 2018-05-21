@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="bright"
+        android:id="@+id/item_fg_canvas_bright"
+        />
+
+    <item
+        android:title="electric"
+        android:id="@+id/item_fg_canvas_electric"
+        />
+
+    <item
+        android:title="temperature1"
+        android:id="@+id/item_fg_canvas_temperature1"
+        />
+
+    <item
+        android:title="wetness1"
+        android:id="@+id/item_fg_canvas_wetness1"
+        />
+
+
+    <item
+        android:title="acceleration"
+        android:id="@+id/item_fg_canvas_acceleration"
+        />
+
+    <item
+        android:title="latitude"
+        android:id="@+id/item_fg_canvas_latitude"
+        />
+
+    <item
+        android:title="longitude"
+        android:id="@+id/item_fg_canvas_longitude"
+        />
+
+
+    <item
+        android:title="height"
+        android:id="@+id/item_fg_canvas_height"
+        />
+
+    <item
+        android:title="speed"
+        android:id="@+id/item_fg_canvas_speed"
+        />
+
+
+</menu>

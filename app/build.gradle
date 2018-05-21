@@ -43,5 +43,6 @@ dependencies {
     compile 'com.github.igortrncic.dotted-progress-bar:library:1.0.0'
     implementation project(':zProgressHUD')
     compile project(path: ':zProgressHUD')
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
 
 }

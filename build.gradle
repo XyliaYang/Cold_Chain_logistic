@@ -7,6 +7,7 @@ buildscript {
         jcenter()
         maven {
             url "http://mvn.mob.com/android"
+            url "https://jitpack.io"
         }
     }
     dependencies {

@@ -5,6 +5,7 @@
     <version value="1" ></version>
 
     <list>
+        <!--&lt;!&ndash;该标签根据所对应的类创建数据库表&ndash;&gt;-->
        <!--<mapping class="com.example.hp.cold_chain_logistic.db.IMSI"></mapping>-->
 
 

@@ -26,6 +26,31 @@ import java.util.List;
 public class Utility {
 
     /**
+     * get value from a jsonArray according to special name
+     * @param jsonArray
+     * @return
+     */
+    public static String getValueFromJsonArray(String jsonArray,String name){
+
+        JSONArray array= null;
+        JSONObject object=null;
+        try {
+            array = new JSONArray(jsonArray);
+            for(int i=0;i<array.length();i++){
+                object=array.getJSONObject(i);
+                if(object.getString("name").equals(name)){
+                    return object.getString("value");
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return "";
+    }
+
+    /**
      * jsonArray change into  arraylist<hashmap>
      * @param jsonArray:jsonArrayString
      * @return
@@ -89,27 +114,4 @@ public class Utility {
         return result;
     }
 
-//
-//    /**
-//     * 将para型的json数据解析成用于Listview显示的HashList
-//     * @return
-//     */
-//    public static ArrayList<HashMap<String,String>> parseParatoHashList(String data){
-//        ArrayList<HashMap<String,String>> arrayList =new ArrayList<>();
-//        List<Para> paraList=new ArrayList<>();
-//
-//        Gson  gson=new Gson();
-//        paraList=gson.fromJson(data, new TypeToken<List<Para>>(){}.getType());
-//
-//        for(int i=2;i<paraList.size();i++){
-//            Para para=paraList.get(i);
-//            HashMap<String,String> map=new HashMap<>();
-//            map.put("one_show_item_title",para.getName());
-//            map.put("one_show_item_text", para.getValue());
-//
-//            arrayList.add(map);
-//        }
-//
-//        return arrayList;
-//    }
 }
